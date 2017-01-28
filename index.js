@@ -35,7 +35,11 @@ module.exports = function gulpSvelte(options) {
       var result;
 
       tryit(function() {
-        result = compile(file.contents.toString(), objectAssign({filename: file.path}, options));
+        if(options.format) {
+          result = compile(file.contents.toString(), objectAssign({filename: file.path},{name:path.basename(file.path,options.fileext)}, options));
+        } else {
+          result = compile(file.contents.toString(), objectAssign({filename: file.path}, options));
+        }
       }, function(err) {
         if (err) {
           if (file.path) {
